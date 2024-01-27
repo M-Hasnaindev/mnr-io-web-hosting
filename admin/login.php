@@ -4,9 +4,6 @@
     
 ?>
 
-
-
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -54,13 +51,14 @@
                                                 $password = $_POST['password'];
                                               
                                           
-                                                $query = "SELECT * FROM `admin` WHERE `email` = '$email' AND `password` = '$password'";
+                                                $query = "SELECT * FROM `admin` WHERE
+                                                 `email` = '$email' AND `password` = '$password'";
                                           
                                                 $result = mysqli_query($con,$query);
                                                 $row = mysqli_fetch_assoc($result);
                                                 if(mysqli_num_rows($result) > 0){
-                                                    $_SESSION['u_id'] = $row['u_id'];
-                                                    $_SESSION['email'] = $row['email'] ;
+                                                    $_SESSION['email'] = $row['email'];
+                                                    $_SESSION['name'] = $row['name'] ;
                                                     header("location:index.php");
                                                 }
                                                 else{
