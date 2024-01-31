@@ -6,7 +6,16 @@ $sql = "SELECT * FROM users";
 $result = mysqli_query($con, $sql);
 
 if ($result) {
-    ?>
+?>
+
+
+
+
+
+
+
+
+
     <div class="row justify-content-center">
         <div class="col-12 col-lg-8 col-xxl-9 d-flex">
             <div class="card flex-fill">

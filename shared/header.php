@@ -24,6 +24,36 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <!-- Site Stylesheet -->
     <link rel="stylesheet" href="assets/css/app.css">
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        /* Additional styles for the backdrop */
+        body {
+            margin: 0;
+            font-family: 'Arial', sans-serif;
+        }
+
+        .backdrop {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5); /* Semi-transparent black background */
+            backdrop-filter: blur(5px); /* Apply blur effect */
+            z-index: 1000;
+        }
+
+        .confirmation-box {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            padding: 20px;
+            background-color: #fff;
+            z-index: 1001;
+        }
+    </style>
 
 </head>
 
@@ -90,22 +120,44 @@
 
 
 <div class="dropdown">
-
-<img     class="rounded-circle"  btn btn-secondary dropdown-toggle" type="button"
-    id="dropdownMenuButton1" data-bs-toggle="dropdown" 
-    src="https://bootdey.com/img/Content/avatar/avatar6.png" alt=""
-    style="width: 40px; height: 40px;">
-<span class="d-none d-lg-inline-flex">    </span>
-<ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-    <li><a  class="dropdown-item"  href="index.php?action=profile_clicked" >My Profile</a></li>
-    <li><a class="dropdown-item" href="std-dasdboard/html/backend/index.php" >Dashboard</a></li>
-    <li><a  class="dropdown-item" href="logout.php" >Log Out</a></li>
-</ul>
+    <img class="rounded-circle btn btn-secondary dropdown-toggle" type="button"
+        id="dropdownMenuButton1" data-bs-toggle="dropdown" 
+        src="https://bootdey.com/img/Content/avatar/avatar6.png" alt=""
+        style="width: 40px; height: 40px;">
+    <span class="d-none d-lg-inline-flex">    </span>
+    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+        <li><a class="dropdown-item" href="index.php?action=profile_clicked">My Profile</a></li>
+        <li><a class="dropdown-item" href="index.php?actionn=profile_clickedd">Dashboard</a></li>
+        <li><a class="dropdown-item" href="#" onclick="showConfirmation()">Log Out</a></li>
+    </ul>
 </div>
 
 
+<div class="backdrop" id="backdrop"></div>
+<div class="confirmation-box" id="confirmationBox">
+    <p>Are you sure you want to logout this session?</p>
+    <button class="btn btn-primary" onclick="logout()">Yes, Logout</button>
+    <button class="btn btn-secondary" onclick="cancelLogout()">Cancel</button>
+</div>
+<script>
+    // JavaScript functions
+    function showConfirmation() {
+        // Show the backdrop and confirmation box
+        document.getElementById('backdrop').style.display = 'block';
+        document.getElementById('confirmationBox').style.display = 'block';
+    }
 
+    function logout() {
+        // Redirect to logout page or perform logout action
+        window.location.href = 'logout.php';
+    }
 
+    function cancelLogout() {
+        // Hide the backdrop and confirmation box
+        document.getElementById('backdrop').style.display = 'none';
+        document.getElementById('confirmationBox').style.display = 'none';
+    }
+</script>
 
                                     
 

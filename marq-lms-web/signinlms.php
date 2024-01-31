@@ -1,7 +1,8 @@
 
 <?php
-include 'configuration/config.php';
 session_start();
+include 'configuration/config.php';
+
 ?>
 
 
@@ -51,83 +52,66 @@ session_start();
                         <h4>Sign In</h4>
                         <p>Don't have an account yet? <a href="signup.php">&nbsp;Sign Up </a></p>
                     </div>
-                    <form method="post"  id="Login">
+                <form method="post" id="Login">
+
+                
+                    
+                                    <label for="inputEmail">CNIC/B.form:</label>
+                                    <input type="number" name="CNIC" class="form-control" id="inputEmail" 
+                                        placeholder="Enter CNIC/B.form">
+                    
+                
                         <div class="form-group">
-                            <input type="email" name="lms_email"  class="form-control" id="inputEmail" placeholder="Email">
+                        <label for="inputEmail">email:</label>
+                            <input type="email" name="email"  class="form-control" id="inputEmail" placeholder="Email">
                         </div>
                         <div class="form-group">
-                            <input type="password" name="lms_password"  class="form-control" id="inputPassword" placeholder="Password">
+                            <input type="password" name="password"  class="form-control" id="inputPassword" placeholder="Password">
                         </div>
                         <div class="forgot">
                             <a href="forgetpassword.php">Forgot Password?</a>
                         </div>
                         <div class="form-group">
-                        <button type="submit" name="submit" class="btn btn-primary">Sign In</button>
+                        <button type="submit" name="Join" class="btn btn-primary"> Join</button>
                         </div>
                         <div class="form-group">
-                        <button type="submit" name="siwm" class="btn btn-primary login with-google">
-                                                                Sign In with Marq?
-                        </button>
 
-                        </div>
-                       
-                       
-</form>
+                    </div>
+                </form>
+                                            
+                <?php
+$errors = [];
 
-<?php
-if (isset($_POST['submit'])) {
-    $email = $_POST['lms_email'];
-    $password = $_POST['lms_password'];
+if (isset($_POST['Join'])) {
+    $CNIC = $_POST["CNIC"];
+    $email = $_POST["email"];
+    $password = $_POST["password"];
 
-    // TODO: Add appropriate validation for email and password
-
-    // Using prepared statements to prevent SQL injection
-    $query = "SELECT * FROM `user_lms` WHERE `lms_email` = ? AND `lms_password` = ?";
-    
-    $stmt = mysqli_prepare($data, $query);
-
-    // Check for errors in preparing the statement
-    if (!$stmt) {
-        die('Error in preparing the statement: ' . mysqli_error($data));
+    // Validate if required fields are not empty
+    if (empty($CNIC) || empty($email) || empty($password)) {
+        $errors[] = "Please fill in all required fields.";
     }
 
-    // Bind the parameters
-    mysqli_stmt_bind_param($stmt, "ss", $email, $password);
+    // Your other validation logic can go here
 
-    // Execute the query
-    mysqli_stmt_execute($stmt);
+    // If no errors, proceed with user registration
+    if (empty($errors)) {
+        // TODO: Hash the password for security (recommended)
+        // $hashed_password = password_hash($password, PASSWORD_DEFAULT);
 
-    // Get the result set
-    $result = mysqli_stmt_get_result($stmt);
+        // SQL query to insert user data into the 'user_lms' table
+        $sql = "INSERT INTO user_lms (lms_id,lms_cnic_num, lms_email, lms_password) 
+                VALUES (NULL,'$CNIC', '$email', '$password')";
 
-    if(mysqli_num_rows($result) > 0){
-        $row = mysqli_fetch_assoc($result);
-        $_SESSION['lms_id'] = $row['lms_id'];
-        $_SESSION['lms_cnic_num'] = $row['lms_cnic_num'];
-        $_SESSION['email'] = $row['email'];
-        header("location:index.php");
-        exit(); // Ensure no further script execution after redirect
+        // Perform the query
+        if ($data->query($sql) === TRUE) {
+            echo "<script>alert('Join successful!')</script>";
+            // Redirect to a success page or perform additional actions if needed
+        } else {
+            $errors[] = "Error: " . $sql . "<br>" . $data->error;
+        }
     }
-    else{
-        echo "<script>alert('Username or password is incorrect!')</script>";
-    }
-
-    // Close the statement
-    mysqli_stmt_close($stmt);
-}elseif (isset($_POST['siwm'])) {
-    echo "siwm is set"; // Debugging statement
-    // TODO: Add logic for "Sign In with Marq?" button
-    // Assuming you have a session variable storing the user ID after Marq? login
-    $marqUserId = $u_id; // Replace with the actual user ID obtained from Marq?
-    
-    // Set the user ID session variable
-    $_SESSION['u_id'] = $marqUserId;
-    
-    // Redirect to index.php
-    header("location: index.php");
-    exit();  // Ensure no further script execution after redirect
 }
-
 ?>
 
                 </div>
@@ -140,8 +124,7 @@ if (isset($_POST['submit'])) {
         <div class="container">
             <div class="row text-center pt-3">
                 <div class="col-sm-12 footer-bar">
-                    <p class="footer-text mx-auto">
-                        &copy; 2015-2021 Khwaja Fareed University of Engineering & Information Technology kfueit.edu.pk.</p>
+                    <p class="footer-text mx-auto">&copy; 2015-2021 Khwaja Fareed University of Engineering & Information Technology kfueit.edu.pk.</p>
                 </div>
             </div>
         </div>

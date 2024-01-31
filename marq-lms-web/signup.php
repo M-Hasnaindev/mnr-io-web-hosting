@@ -1,84 +1,7 @@
 <?php
 include 'configuration/config.php';
 
-function isUnique($data, $column, $value) {
-    $query = "SELECT * FROM `users` WHERE $column = '$value'";
-    $result = mysqli_query($data, $query);
-    return mysqli_num_rows($result) == 0;
-}
-
-function isPasswordComplex($password) {
-    // Password should contain at least one alphabet, one number, and one symbol
-    return preg_match('/^(?=.*[A-Za-z])(?=.*\d)(?=.*[\W_])[A-Za-z\d\W_]+$/', $password);
-}
-
-if(isset($_POST['submit'])){
-    $name = $_POST['name'];
-    $uname = $_POST['uname'];
-    $nic = $_POST['nic'];
-    $email = $_POST['email'];
-    $phone = $_POST['phone'];
-    $pass = $_POST['password'];
-
-    // Client-side validation
-    if(strlen($phone) !== 11) {
-        echo "<script>alert('Phone number should be exactly 11 digits.')</script>";
-        exit();
-    }
-
-    if(strlen($nic) !== 13) {
-        echo "<script>alert('NIC should be exactly 13 characters.')</script>";
-        exit();
-    }
-
-    if(strlen($pass) < 8 || !isPasswordComplex($pass)) {
-        echo "<script>alert('Password should be at least 8 characters and contain at least one alphabet, one number, and one symbol.')</script>";
-        exit();
-    }
-
-    // Check for uniqueness
-    if (!isUnique($data, 'username', $uname) || !isUnique($data, 'nic', $nic) ||
-        !isUnique($data, 'email', $email) || !isUnique($data, 'phone', $phone)) {
-        echo "<script>alert('Username, NIC, email, or phone number already exists.')</script>";
-        exit();
-    }
-
-    // Continue with the rest of the code if validations pass
-
-    // You should hash the password before storing it in the database for security
-    if(empty($error)){
-
-    
-    // $hashed_password = password_hash($pass, PASSWORD_DEFAULT);
-
-    // $query = "INSERT INTO `user`(`name`, `username`, `nic`, `email`, `phone`, `password`) VALUES
-    //  ('$name','$uname','$nic','$email','$phone','$hashed_password')";
-
-
-    $query = "INSERT INTO `users`(`name`, `username`, `nic`, `email`, `phone`, `password`) VALUES
-    ('$name','$uname','$nic','$email','$phone','$pass')";
-    $result = mysqli_query($data, $query);
-
-    if($data->query($query)=== TRUE){
-        echo "<script>alert('Record Inserted!')</script>";
-    } else {
-        // Handle the case when the query fails
-        echo "<script>alert('Error: ".mysqli_error($data)."')</script>";
-    }
-}
-}
-
-// Redirect the user to signup.php in case the form was not submitted
-// else{
-//     header("Location: signup.php");
-// }
 ?>
-
-
-
-
-
-
 <!doctype html>
 <html lang="en">
   <head>
@@ -157,7 +80,8 @@ if(isset($_POST['submit'])){
                             <div class="input-group-prepend">
                                 <span class="input-group-text"><i class="fa fa-id-card" aria-hidden="true"></i></span>
                              </div>
-                                <input class="form-control" placeholder= "NIC XXXXX-XXXXXXX-X" type="text" name="nic" required>
+                                <input class="form-control" placeholder= "NIC XXXXX-XXXXXXX-X" 
+                                type="text" name="nic" required>
                             </div>
                             <span id="message1"></span>
                         <div class="form-group input-group">
@@ -179,7 +103,7 @@ if(isset($_POST['submit'])){
                                 <option value="3">+344</option>
                                 <option value="3">+701</option>
                             </select> -->
-                            <input type="tel" id="phone" name="phone"  class="form-control" placeholder="Phone number" required>
+                            <input type="tel" id="phone" name="phonenumber"  class="form-control" placeholder="Phone number" required>
                         </div> 
                         <div class="form-group input-group">
                             <div class="input-group-prepend">
@@ -195,6 +119,50 @@ if(isset($_POST['submit'])){
                         </div> <!-- form-group// -->
                             <button type="submit" class="btn btn-primary2" name="submit"> Sign Up</button>                                                              
                     </form>
+                    <?php
+if (isset($_POST['submit'])) {
+    $name = $_POST['name'];
+    $uname = $_POST['uname'];
+    $nic = $_POST['nic'];
+    $email = $_POST['email'];
+    $phone = $_POST['phonenumber'];
+    $pass = $_POST['password'];
+
+    // Hash the password for security
+    // $hashed_password = password_hash($pass, PASSWORD_DEFAULT);
+
+    // Use prepared statement to prevent SQL injection
+    $query = "INSERT INTO `lms_signup`(`Id`, `name`, `username`, `nic`, `email`, `phonenumber`, `password`) 
+    VALUES (Null, ?, ?, ?, ?, ?, ?)";
+
+    $stmt = mysqli_prepare($data, $query);
+
+    // Check for errors in preparing the statement
+    if ($stmt === false) {
+        die('Error in preparing the statement: ' . mysqli_error($data));
+    }
+
+    // Bind parameters
+    mysqli_stmt_bind_param($stmt, "ssssss", $name, $uname, $nic, $email, $phone, $pass);
+
+    // Execute the statement
+    $result = mysqli_stmt_execute($stmt);
+
+    // Check if the query was successful
+    if ($result) {
+        echo "<script>alert('Record Inserted!')</script>";
+    } else {
+        // Handle the case when the query fails
+        echo "<script>alert('Error: " . mysqli_stmt_error($stmt) . "')</script>";
+    }
+
+    // Close the statement
+    mysqli_stmt_close($stmt);
+}
+?>
+
+
+
                 </div>
                 </div>
             </div>

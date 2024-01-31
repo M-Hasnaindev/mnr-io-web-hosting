@@ -212,11 +212,59 @@ if (isset($_SESSION['u_id'])) {
             </div>
           </div>
           <div class="row" style="text-align: center;">
+            
+                        <?php
+
+              if (isset($_SESSION['u_id'])) {
+                  ?>
+          
             <div class="col-sm-6 col-md-6 col-lg-4 col-lg-4 popuptext">          
-              <a href="https://eportal.kfueit.edu.pk/login?main=825&parent=E-Portal&menu=side-link"><img src="img/lms.png" class="img-thumbnail" alt="lms" width="204" height="156">
+              <a href="signin.php">
+                <img src="img/lms.png" class="img-thumbnail" alt="lms" width="204" height="156">
+                  <p>LMS</p>
+              </a>
+            </div>            
+                            <?php
+                } 
+                else {
+                    ?>
+      <div class="col-sm-6 col-md-6 col-lg-4 col-lg-4 popuptext">          
+              <a href="signinlms.php">
+                <img src="img/lms.png" class="img-thumbnail" alt="lms" width="204" height="156">
                   <p>LMS</p>
               </a>
             </div>
+                    <?php
+                }
+                ?>
+
+
+                  <?php
+
+                  if (isset($_SESSION['lms_cnic_num'])) {
+                      ?>
+
+                  <div class="col-sm-6 col-md-6 col-lg-4 col-lg-4 popuptext">          
+                  <a href="signinlms.php">
+                    <img src="img/lms.png" class="img-thumbnail" alt="lms" width="204" height="156">
+                      <p>LMS</p>
+                  </a>
+                  </div>            
+                                <?php
+                    } 
+                    else {
+                        ?>
+                  <!-- <div class="col-sm-6 col-md-6 col-lg-4 col-lg-4 popuptext">          
+                  <a href="signin.php">
+                    <img src="img/lms.png" class="img-thumbnail" alt="lms" width="204" height="156">
+                      <p>LMS</p>
+                  </a>
+                  </div> -->
+                        <?php
+                    }
+                    ?>
+
+
             <div class="col-sm-6 col-md-6 col-lg-4 col-lg-4 popuptext">
               <a href="https://kfueit.edu.pk/available-scholarships"><img src="img/scholar.png" class="img-thumbnail" alt="scholarship" width="204" height="156">
                   <p>Scholarship</p>

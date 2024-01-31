@@ -870,8 +870,40 @@
     integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
           crossorigin="anonymous" asp-append-version="true">
       </script>   
+
+
+
     <!-- Site Scripts -->
     <script src="assets/js/app.js"></script>
+
+    <!-- pop -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+<script>
+    // JavaScript functions
+    function showConfirmation() {
+        // Show the backdrop and confirmation box
+        document.getElementById('backdrop').style.display = 'block';
+        document.getElementById('confirmationBox').style.display = 'block';
+    }
+
+    function logout() {
+        // Redirect to logout page or perform logout action
+        window.location.href = 'logout.php';
+    }
+
+    function cancelLogout() {
+        // Hide the backdrop and confirmation box
+        document.getElementById('backdrop').style.display = 'none';
+        document.getElementById('confirmationBox').style.display = 'none';
+    }
+</script>
+
+
+    
+    
 </body>
 
 </html>

@@ -63,15 +63,35 @@
 
 					<li class="sidebar-item">
 						<a class="sidebar-link" href="charts-chartjs.php">
-              <i class="align-middle" data-feather="bar-chart-2"></i> <span class="align-middle">Charts</span>
+              			<i class="align-middle" data-feather="bar-chart-2"></i> 
+			  			<span class="align-middle">Charts</span>
             </a>
 					</li>
 
 					<li class="sidebar-item">
 						<a class="sidebar-link" href="maps-google.php">
-              <i class="align-middle" data-feather="map"></i> <span class="align-middle">Maps</span>
-            </a>
+							<i class="align-middle" data-feather="map"></i>
+							<span class="align-middle">Maps</span>
+           				 </a>
 					</li>
+
+					<li class="sidebar-header">
+						Courses 
+					</li>
+
+					<li class="sidebar-item">
+						<a class="sidebar-link" href="maps-google.php">
+							<i class="align-middle" data-feather="map"></i>
+							<span class="align-middle"> add courses</span>
+           				 </a>
+					</li>
+
+
+
+
+
+
+
 				</ul>
 
 				
